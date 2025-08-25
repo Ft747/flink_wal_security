@@ -1,0 +1,10 @@
+[project]
+name = "code"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "apache-flink>=2.1.0",
+    "apache-flink-statefun>=3.3.0",
+]
