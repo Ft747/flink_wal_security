@@ -1,0 +1,19 @@
+org.apache.flink.client.program.ProgramAbortException: java.lang.RuntimeException: Python process exits with code: 1
+	at org.apache.flink.client.python.PythonDriver.main(PythonDriver.java:138)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.apache.flink.client.program.PackagedProgram.callMainMethod(PackagedProgram.java:343)
+	at org.apache.flink.client.program.PackagedProgram.invokeInteractiveModeForExecution(PackagedProgram.java:223)
+	at org.apache.flink.client.ClientUtils.executeProgram(ClientUtils.java:105)
+	at org.apache.flink.client.cli.CliFrontend.executeProgram(CliFrontend.java:1017)
+	at org.apache.flink.client.cli.CliFrontend.run(CliFrontend.java:230)
+	at org.apache.flink.client.cli.CliFrontend.parseAndRun(CliFrontend.java:1261)
+	at org.apache.flink.client.cli.CliFrontend.lambda$mainInternal$11(CliFrontend.java:1355)
+	at org.apache.flink.runtime.security.contexts.NoOpSecurityContext.runSecured(NoOpSecurityContext.java:28)
+	at org.apache.flink.client.cli.CliFrontend.mainInternal(CliFrontend.java:1355)
+	at org.apache.flink.client.cli.CliFrontend.main(CliFrontend.java:1323)
+Caused by: java.lang.RuntimeException: Python process exits with code: 1
+	at org.apache.flink.client.python.PythonDriver.main(PythonDriver.java:128)
+	... 14 more
