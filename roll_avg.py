@@ -79,11 +79,6 @@ class RollingAverageFunction(KeyedProcessFunction):
 
         # update count by one because an element arrived
         new_count = current_count + 1  # increment count by 1
-        # if new_count == 1000:
-        #     time.sleep(60)
-
-        # if new_count == 1000:
-        #     exit()
 
         # update total by adding the numeric value (cast to float)
         new_total = float(current_total) + float(value)  # accumulate total as float
@@ -103,8 +98,15 @@ class RollingAverageFunction(KeyedProcessFunction):
         # emit a tuple (key, count, total, average) downstream for observation
         # using a simple Python tuple for demonstration
         # downstream can be .print() to see results
-        # time.sleep(0.01)
-        print((current_key, new_count, new_total, new_avg))  # emit result
+        # time.sleep(0.000005 * new_count)
+        print(
+            (
+                f"current key {current_key}",
+                f"new_count {new_count}",
+                f"new_total {new_total}",
+                f"new_avg {new_avg}",
+            )
+        )  # emit result
 
 
 # main job builder
@@ -122,12 +124,12 @@ def build_and_run():
 
     # create a bounded source of 10_000 numbers (0..9999)
     source = env.from_collection(
-        list(range(2001)), type_info=Types.LONG()
+        list(range(1000)), type_info=Types.LONG()
     )  # create collection source
 
     # key the stream by a constant key (0) so the operator is keyed and uses keyed state
     keyed = source.key_by(
-        lambda x: x
+        lambda x: 0
     )  # all elements share the same key -> single-key aggregation
 
     # apply the RollingAverageFunction (KeyedProcessFunction) and print results

@@ -1,0 +1,5 @@
+options.env is 0x1ca42af0
+Process /home/dtome/Code/flink-2.1.0/tmp/rocksdb_3/job_70a9655b53e452034eb320fd62d0c59c_op_ExternalPythonKeyedProcessOperator_90bea66de1c231edf33913ecd54406c1__1_1__uuid_83ded3eb-9155-4c57-988b-9263e23f8520/db/000023.sst
+Sst file format: block-based
+from [] to []
+'1A000000000580054B002E00' seq:18, type:1 => 00000008408F3C0000000000

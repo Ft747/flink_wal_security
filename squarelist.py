@@ -12,6 +12,15 @@ import os
 import time
 
 
+import itertools
+import random
+
+
+def infinite_numbers():
+    while True:
+        yield random.randint(1, 100)  # or itertools.count() for sequential
+
+
 class SquareWithState(KeyedProcessFunction):
     def open(self, runtime_context: RuntimeContext):
         # # This state will be stored in RocksDB
@@ -50,8 +59,10 @@ def main():
 
     # t_env = StreamTableEnvironment.create(env)
 
-    numbers = range(1, 5000)
-    ds = env.from_collection(numbers, type_info=Types.INT())
+    # numbers = range(1, 5000)
+    ds = env.from_collection(infinite_numbers(), type_info=Types.LONG())
+    # ds = env.from_collection(numbers, type_info=Types.INT())
+    # source = env.socket_text_stream("localhost", 9000)
     # ds2 = env.from_collection(numbers, type_info=Types.INT())
     # ds2 = env.from_source(1)
 
