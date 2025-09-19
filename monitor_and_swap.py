@@ -24,7 +24,7 @@ def swap_last5(file_path: Path):
     try:
         print(f"[INFO] Swapping last 5 values in: {file_path}")
         subprocess.run(
-            [SWAP_PROGRAM, str(file_path)],
+            [SWAP_PROGRAM, str(file_path), "5", "--zero"],  # <-- pass N and flag
             check=True,
         )
         print(f"[OK] Finished processing {file_path}")
