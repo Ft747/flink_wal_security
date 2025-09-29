@@ -38,9 +38,10 @@ execution.checkpointing.externalized-checkpoint-retention: RETAIN_ON_CANCELLATIO
 # state.backend.rocksdb.options.WAL_ttl_seconds: 604800   # keep WAL for 7 days
 # execution.checkpointing.unaligned: true
 # execution.checkpointing.alignment-timeout: 0 ms
-execution.checkpointing.savepoint-dir: file:///home/dtome/Code/flink-2.1.0/tmp/flink-checkpoints # location to store checkpoints
-execution.checkpointing.dir: file:///home/dtome/Code/flink-2.1.0/tmp/flink-checkpoints # location to store checkpoints
-state.backend.rocksdb.localdir: /home/dtome/Code/flink-2.1.0/tmp/rocksdb
+execution.target: local
+execution.checkpointing.savepoint-dir: file:///tmp/flink-checkpoints
+execution.checkpointing.dir: file:///tmp/flink-checkpoints
+state.backend.rocksdb.localdir: /tmp/rocksdb
 execution.checkpointing.local-backup.enabled: true
 
 jobmanager:
