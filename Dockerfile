@@ -34,7 +34,7 @@ RUN apt-get update \
 
 COPY pyproject.toml ./
 COPY uv.lock ./
-RUN uv pip install --python python3 --system --no-editable .
+RUN uv pip install --python python3 --system .
 
 RUN mkdir -p ${FLINK_CONF_DIR}
 COPY config.yaml ${FLINK_CONF_DIR}/flink-conf.yaml
