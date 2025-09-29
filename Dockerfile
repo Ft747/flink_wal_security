@@ -1,18 +1,17 @@
 # syntax=docker/dockerfile:1
-FROM python:3.11-slim AS runtime
+FROM apache/flink:2.1.0-python3.11 AS runtime
+
+USER root
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
-    JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64 \
-    FLINK_CONF_DIR=/app/conf
-ENV PATH="${JAVA_HOME}/bin:${PATH}"
+    FLINK_CONF_DIR=${FLINK_HOME}/conf
 
 WORKDIR /app
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        openjdk-17-jre-headless \
         build-essential \
         libsnappy-dev \
         librocksdb-dev \
@@ -33,5 +32,8 @@ RUN mkdir -p ${FLINK_CONF_DIR}
 COPY config.yaml ${FLINK_CONF_DIR}/flink-conf.yaml
 
 COPY . .
+RUN chown -R flink:flink /app
 
-CMD ["python", "job.py"]
+USER flink
+
+CMD ["flink", "run", "-py", "job.py"]
