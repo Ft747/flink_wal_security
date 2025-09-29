@@ -7,10 +7,11 @@ requires-python = ">=3.9"
 dependencies = [
     "apache-flink>=2.1.0",
     "apache-flink-statefun>=3.3.0",
+    "crc32c>=2.7.1",
+    "cython>=3.1.4",
     "pip>=25.2",
     "pyrex-rocksdb>=0.1.4",
     "python-snappy>=0.7.3",
-    "rocksdb-py>=0.0.6",
     "scikit-learn>=1.6.1",
     "watchdog>=6.0.0",
 ]

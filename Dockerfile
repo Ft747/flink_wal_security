@@ -27,7 +27,9 @@ RUN apt-get update \
         ca-certificates \
         curl \
     && rm -rf /var/lib/apt/lists/* \
-    && curl -LsSf https://astral.sh/uv/install.sh | sh -s -- --install-dir /usr/local/bin \
+    && curl -LsSf https://astral.sh/uv/install.sh | sh \
+    && mv /root/.local/bin/uv /usr/local/bin/uv \
+    && rm -rf /root/.local \
     && ln -sf /usr/bin/python3 /usr/bin/python
 
 COPY pyproject.toml ./
