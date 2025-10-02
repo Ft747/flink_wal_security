@@ -38,7 +38,8 @@ RUN uv pip install --python python3 --system .
 
 RUN mkdir -p ${FLINK_CONF_DIR} \
     && mkdir -p /tmp/flink-savepoints
-COPY config.yaml ${FLINK_CONF_DIR}/flink-conf.yaml
+COPY config.yaml ${FLINK_CONF_DIR}/config.yaml
+
 
 COPY . .
 RUN chmod +x run_flink_job.sh \
