@@ -51,7 +51,7 @@ cleanup() {
 
     if [[ -n "${JOB_ID}" ]]; then
         echo "Cancelling Flink job ${JOB_ID}..."
-        "${FLINK_BIN_DIR}/flink" cancel -m "${FLINK_JOBMANAGER_TARGET}" "${JOB_ID}" || true
+        "${FLINK_BIN_DIR}/flink" stop -m "${FLINK_JOBMANAGER_TARGET}" "${JOB_ID}" --type native|| true
     fi
 
     if [[ ${CLUSTER_STARTED} -eq 1 ]]; then
