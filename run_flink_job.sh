@@ -31,6 +31,9 @@ fi
 FLINK_HOME=${FLINK_HOME:-/opt/flink}
 FLINK_BIN_DIR="${FLINK_HOME}/bin"
 STOP_DELAY_SECONDS=${STOP_DELAY_SECONDS:-3}
+STARTUP_TIMEOUT_SECONDS=${STARTUP_TIMEOUT_SECONDS:-60}
+STARTUP_POLL_INTERVAL_SECONDS=${STARTUP_POLL_INTERVAL_SECONDS:-2}
+FLINK_REST_URL=${FLINK_REST_URL:-http://localhost:8081}
 
 for flink_bin in start-cluster.sh stop-cluster.sh flink; do
     if [[ ! -x "${FLINK_BIN_DIR}/${flink_bin}" ]]; then
@@ -64,8 +67,21 @@ echo "Starting Flink cluster..."
 "${FLINK_BIN_DIR}/start-cluster.sh"
 CLUSTER_STARTED=1
 
-# Give the cluster a moment to finish bootstrapping.
-sleep 5
+attempts=$(( (STARTUP_TIMEOUT_SECONDS + STARTUP_POLL_INTERVAL_SECONDS - 1) / STARTUP_POLL_INTERVAL_SECONDS ))
+echo "Waiting up to ${STARTUP_TIMEOUT_SECONDS}s for Flink REST endpoint at ${FLINK_REST_URL}..."
+for ((i=1; i<=attempts; i++)); do
+    if curl --silent --fail "${FLINK_REST_URL}/taskmanagers" >/dev/null; then
+        echo "Flink REST endpoint is reachable."
+        break
+    fi
+
+    if [[ $i -eq attempts ]]; then
+        echo "Error: Flink REST endpoint did not become ready within ${STARTUP_TIMEOUT_SECONDS}s." >&2
+        exit 1
+    fi
+
+    sleep "${STARTUP_POLL_INTERVAL_SECONDS}"
+done
 
 echo "Submitting Flink job via uv..."
 submission_output=$(uv run -- "${FLINK_BIN_DIR}/flink" run -d -py job.py -pyexec "${PY_EXECUTABLE}" "$@" 2>&1)
