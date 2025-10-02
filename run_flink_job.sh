@@ -50,8 +50,8 @@ cleanup() {
     local exit_code=$?
 
     if [[ -n "${JOB_ID}" ]]; then
-        echo "Stopping Flink job ${JOB_ID}..."
-        "${FLINK_BIN_DIR}/flink" stop "${JOB_ID}" || true
+        echo "Cancelling Flink job ${JOB_ID}..."
+        "${FLINK_BIN_DIR}/flink" cancel -m "${FLINK_JOBMANAGER_TARGET}" "${JOB_ID}" || true
     fi
 
     if [[ ${CLUSTER_STARTED} -eq 1 ]]; then
