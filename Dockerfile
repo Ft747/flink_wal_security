@@ -40,8 +40,9 @@ RUN mkdir -p ${FLINK_CONF_DIR}
 COPY config.yaml ${FLINK_CONF_DIR}/flink-conf.yaml
 
 COPY . .
-RUN chown -R flink:flink /app
+RUN chmod +x run_flink_job.sh \
+    && chown -R flink:flink /app
 
 USER flink
 
-CMD ["flink", "run", "-py", "job.py"]
+CMD ["/app/run_flink_job.sh", "/usr/bin/python3"]
