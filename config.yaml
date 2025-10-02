@@ -45,14 +45,8 @@ state.backend.rocksdb.localdir: /tmp/rocksdb
 execution.checkpointing.local-backup.enabled: true
 
 jobmanager:
-  # The host interface the JobManager will bind to. By default, this is localhost, and will prevent
-  # the JobManager from communicating outside the machine/container it is running on.
-  # On YARN this setting will be ignored if it is set to 'localhost', defaulting to 0.0.0.0.
-  # On Kubernetes this setting will be ignored, defaulting to 0.0.0.0.
-  #
-  # To enable this, set the bind-host address to one that has access to an outside facing network
-  # interface, such as 0.0.0.0.
-  bind-host: localhost
+  # Bind to all interfaces inside the container so TaskManagers can reach the JobManager.
+  bind-host: 0.0.0.0
   rpc:
     # The external address of the host on which the JobManager runs and can be
     # reached by the TaskManagers and any clients which want to connect. This setting
@@ -62,7 +56,7 @@ jobmanager:
     # the conf/masters file, this will be taken care of automatically. Yarn
     # automatically configure the host name based on the hostname of the node where the
     # JobManager runs.
-    address: localhost
+    address: 127.0.0.1
     # The RPC port where the JobManager is reachable.
     port: 6123
   memory:
@@ -77,14 +71,8 @@ jobmanager:
     failover-strategy: region
 
 taskmanager:
-  # The host interface the TaskManager will bind to. By default, this is localhost, and will prevent
-  # the TaskManager from communicating outside the machine/container it is running on.
-  # On YARN this setting will be ignored if it is set to 'localhost', defaulting to 0.0.0.0.
-  # On Kubernetes this setting will be ignored, defaulting to 0.0.0.0.
-  #
-  # To enable this, set the bind-host address to one that has access to an outside facing network
-  # interface, such as 0.0.0.0.
-  bind-host: localhost
+  # Bind to all interfaces inside the container so the JobManager can reach the TaskManager.
+  bind-host: 0.0.0.0
   # The address of the host on which the TaskManager runs and can be reached by the JobManager and
   # other TaskManagers. If not specified, the TaskManager will try different strategies to identify
   # the address.
@@ -94,7 +82,7 @@ taskmanager:
   #
   # Note also that unless all TaskManagers are running on the same machine, this address needs to be
   # configured separately for each TaskManager.
-  host: localhost
+  host: 127.0.0.1
   # The number of task slots that each TaskManager offers. Each slot runs one parallel pipeline.
   numberOfTaskSlots: 1
   memory:
@@ -183,14 +171,14 @@ parallelism:
 
 rest:
   # The address to which the REST client will connect to
-  address: localhost
+  address: 127.0.0.1
   # The address that the REST & web server binds to
   # By default, this is localhost, which prevents the REST & web server from
   # being able to communicate outside of the machine/container it is running on.
   #
   # To enable this, set the bind address to one that has access to outside-facing
   # network interface, such as 0.0.0.0.
-  # bind-address: localhost
+  bind-address: 0.0.0.0
   # # The port to which the REST client connects to. If rest.bind-port has
   # # not been specified, then the server will bind to this port as well.
   # port: 8081
