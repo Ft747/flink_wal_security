@@ -34,6 +34,7 @@ STOP_DELAY_SECONDS=${STOP_DELAY_SECONDS:-3}
 STARTUP_TIMEOUT_SECONDS=${STARTUP_TIMEOUT_SECONDS:-60}
 STARTUP_POLL_INTERVAL_SECONDS=${STARTUP_POLL_INTERVAL_SECONDS:-2}
 FLINK_REST_URL=${FLINK_REST_URL:-http://localhost:8081}
+FLINK_JOBMANAGER_TARGET=${FLINK_JOBMANAGER_TARGET:-localhost:8081}
 
 for flink_bin in start-cluster.sh stop-cluster.sh flink; do
     if [[ ! -x "${FLINK_BIN_DIR}/${flink_bin}" ]]; then
@@ -83,8 +84,8 @@ for ((i=1; i<=attempts; i++)); do
     sleep "${STARTUP_POLL_INTERVAL_SECONDS}"
 done
 
-echo "Submitting Flink job via uv..."
-submission_output=$(uv run -- "${FLINK_BIN_DIR}/flink" run -d -py job.py -pyexec "${PY_EXECUTABLE}" "$@" 2>&1)
+echo "Submitting Flink job via uv to ${FLINK_JOBMANAGER_TARGET}..."
+submission_output=$(uv run -- "${FLINK_BIN_DIR}/flink" run -m "${FLINK_JOBMANAGER_TARGET}" -d -py job.py -pyexec "${PY_EXECUTABLE}" "$@" 2>&1)
 
 printf '%s\n' "${submission_output}"
 
