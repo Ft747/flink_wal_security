@@ -1,2 +1,3 @@
 !#bin/sh
-jj commit -m "2025-09-29" && jj describe -m "2025-09-29" && jj bookmark set master && jj git push
+now = $(date +"%Y-%m-%d %H:%M")
+jj commit -m "$now" && jj describe -m "$now" && jj bookmark set master && jj git push
