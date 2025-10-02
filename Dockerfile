@@ -36,12 +36,14 @@ COPY pyproject.toml ./
 COPY uv.lock ./
 RUN uv pip install --python python3 --system .
 
-RUN mkdir -p ${FLINK_CONF_DIR}
+RUN mkdir -p ${FLINK_CONF_DIR} \
+    && mkdir -p /tmp/flink-savepoints
 COPY config.yaml ${FLINK_CONF_DIR}/flink-conf.yaml
 
 COPY . .
 RUN chmod +x run_flink_job.sh \
-    && chown -R flink:flink /app
+    && chown -R flink:flink /app \
+    && chown -R flink:flink /tmp/flink-savepoints
 
 USER flink
 
