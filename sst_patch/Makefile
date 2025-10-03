@@ -1,17 +1,14 @@
 CXX = g++
-CXXFLAGS = -std=c++17 -Wall -O2 -I.
-LDFLAGS = 
+CXXFLAGS = -std=c++17 -Wall -Wextra -O2
+LDFLAGS = -lrocksdb -lz -lbz2 -lsnappy -llz4 -lzstd
 
-TARGET = modify_last_record
-SRC = modify_last_record.cpp
-HEADERS = crc32.h sst_structures.h
+all: modify_last_record hex_dump
 
-all: $(TARGET)
+hex_dump: hex_dump.cpp
+	$(CXX) $(CXXFLAGS) -o $@ $<
 
-$(TARGET): $(SRC) $(HEADERS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRC) $(LDFLAGS)
+modify_last_record: modify_last_record.cpp
+	$(CXX) $(CXXFLAGS) -o $@ $< $(LDFLAGS)
 
 clean:
-	rm -f $(TARGET)
-
-.PHONY: all clean
+	rm -f modify_last_record hex_dump
