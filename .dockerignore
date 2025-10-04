@@ -1,0 +1,5 @@
+.git/
+.bak/
+.venv/
+.jj/
+sst_patch/
