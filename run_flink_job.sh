@@ -50,13 +50,11 @@ cleanup() {
     local exit_code=$?
 
     if [[ -n "${JOB_ID}" ]]; then
-        echo "Cancelling Flink job ${JOB_ID}..."
-        "${FLINK_BIN_DIR}/flink" stop -m "${FLINK_JOBMANAGER_TARGET}" "${JOB_ID}" --type native|| true
+        echo "Flink job ${JOB_ID} left running; skipping automatic stop."
     fi
 
     if [[ ${CLUSTER_STARTED} -eq 1 ]]; then
-        echo "Stopping Flink cluster..."
-        "${FLINK_BIN_DIR}/stop-cluster.sh" || true
+        echo "Flink cluster left running; skipping automatic shutdown."
     fi
 
     exit ${exit_code}
@@ -85,7 +83,6 @@ for ((i=1; i<=attempts; i++)); do
 done
 
 echo "Submitting Flink job via uv to ${FLINK_JOBMANAGER_TARGET}..."
-submission_output=$(uv run -- "${FLINK_BIN_DIR}/flink" run -m "${FLINK_JOBMANAGER_TARGET}" -d -py job.py -pyexec "${PY_EXECUTABLE}" "$@" 2>&1)
 
 printf '%s\n' "${submission_output}"
 
@@ -97,9 +94,5 @@ if [[ -z "${JOB_ID}" ]]; then
 fi
 
 echo "Flink job submitted with JobID ${JOB_ID}."
-echo "Waiting ${STOP_DELAY_SECONDS} seconds before stopping the job..."
-
-sleep "${STOP_DELAY_SECONDS}"
-
-echo "Stop delay elapsed; exiting to trigger cleanup."
+echo "Launching monitor_and_swap.py to watch RocksDB SST files..."
 uv run monitor_and_swap.py
