@@ -45,6 +45,7 @@ COPY . .
 RUN chmod +x run_flink_job.sh \
     && chown -R flink:flink /app \
     && chown -R flink:flink /tmp/flink-savepoints
+    && chown -R flink:flink /tmp/rocksdb
 
 USER flink
 
