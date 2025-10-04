@@ -38,7 +38,7 @@ execution.checkpointing.externalized-checkpoint-retention: RETAIN_ON_CANCELLATIO
 # state.backend.rocksdb.options.WAL_ttl_seconds: 604800   # keep WAL for 7 days
 # execution.checkpointing.unaligned: true
 # execution.checkpointing.alignment-timeout: 0 ms
-execution.target: local
+execution.target: remote
 execution.checkpointing.savepoint-dir: file:///tmp/flink-checkpoints
 execution.checkpointing.dir: file:///tmp/flink-checkpoints
 state.backend.rocksdb.localdir: /tmp/rocksdb
@@ -158,7 +158,6 @@ parallelism:
 #     # Default target directory for savepoints, optional.
 #     savepoint-dir: hdfs://namenode-host:port/flink-savepoints
 
-
 # state:
 #   backend:
 #     # Supported backends are 'hashmap', 'rocksdb', or the
@@ -184,7 +183,6 @@ rest:
   # port: 8081
   # # Port range for the REST and web server to bind to.
   # bind-port: 8080-8090
-
 # web:
 #   submit:
 #     # Flag to specify whether job submission is enabled from the web-based
@@ -299,4 +297,3 @@ rest:
 #       dir: hdfs:///completed-jobs/
 #       # Interval in milliseconds for refreshing the monitored directories.
 #       fs.refresh-interval: 10000
-

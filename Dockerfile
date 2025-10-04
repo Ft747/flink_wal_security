@@ -34,7 +34,7 @@ RUN apt-get update \
 
 COPY pyproject.toml ./
 COPY uv.lock ./
-RUN uv pip install --python python3 --system .
+RUN uv pip install --python python3
 RUN uv sync
 RUN mkdir -p ${FLINK_CONF_DIR} \
     && mkdir -p /tmp/flink-savepoints \
@@ -50,4 +50,4 @@ RUN chmod +x run_flink_job.sh \
 
 USER flink
 
-CMD ["/app/run_flink_job.sh", "/usr/bin/python3"]
+CMD ["/app/run_flink_job.sh", "/app/.venv/bin/python"]

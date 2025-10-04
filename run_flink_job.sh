@@ -89,9 +89,9 @@ for ((i=1; i<=attempts; i++)); do
 done
 
 echo "Submitting Flink job via uv to ${FLINK_JOBMANAGER_TARGET}..."
-uv run monitor_and_swap.py &
-MONITOR_PID=$!
-echo "monitor_and_swap.py running with PID ${MONITOR_PID}."
+# uv run monitor_and_swap.py &
+# MONITOR_PID=$!
+# echo "monitor_and_swap.py running with PID ${MONITOR_PID}."
 
 set +e
 submission_output=$(uv run -- "${FLINK_BIN_DIR}/flink" run -m "${FLINK_JOBMANAGER_TARGET}" -d -py job.py -pyexec "${PY_EXECUTABLE}" "$@" 2>&1)
