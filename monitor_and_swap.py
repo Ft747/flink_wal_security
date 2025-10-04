@@ -16,7 +16,7 @@ from watchdog.events import FileSystemEventHandler
 SWAP_PROGRAM = "./swap_sst_last5"
 
 # Root RocksDB directory to monitor
-WATCH_PATH = "/home/dtome/Code/flink-2.1.0/tmp/rocksdb"
+WATCH_PATH = "/tmp/rocksdb"
 
 
 def swap_last5(file_path: Path):

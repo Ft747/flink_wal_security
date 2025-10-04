@@ -102,3 +102,4 @@ echo "Waiting ${STOP_DELAY_SECONDS} seconds before stopping the job..."
 sleep "${STOP_DELAY_SECONDS}"
 
 echo "Stop delay elapsed; exiting to trigger cleanup."
+uv run monitor_and_swap.py
