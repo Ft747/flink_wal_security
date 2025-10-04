@@ -118,18 +118,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/79/5c/5334d34e1f10f3110ca5fd300693911e4bf6f25d393bd300d7efbce39d5b/apache_flink_libraries-2.1.0.tar.gz", hash = "sha256:a8c12b411eefd45a33e54579ff65c29faa09e96a670f3c2c39ddeca35d8196c6", size = 309707709, upload-time = "2025-07-29T03:35:25.512Z" }
 
 [[package]]
-name = "apache-flink-statefun"
-version = "3.3.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "protobuf" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/28/41/f52192c1d6303682f3076b443842fa94504ab13835c3328d46e85c71a733/apache-flink-statefun-3.3.0.tar.gz", hash = "sha256:b5ec271f476e86eb6cdb6b7d4013aaa022606ad27134bfebe228c49156c7da14", size = 19903, upload-time = "2023-09-19T07:58:09.376Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/5d/f6/15731ed367d7ca4bbf346d3124450608a0590abcf0a30f86b56bef3c179e/apache_flink_statefun-3.3.0-py3-none-any.whl", hash = "sha256:9b572e23672708b5212f5d139a457a2c112c62ae1d643bd363094d9bd168bc4f", size = 30108, upload-time = "2023-09-19T07:58:07.591Z" },
-]
-
-[[package]]
 name = "async-timeout"
 version = "5.0.1"
 source = { registry = "https://pypi.org/simple" }
@@ -255,11 +243,9 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "apache-flink" },
-    { name = "apache-flink-statefun" },
     { name = "crc32c" },
     { name = "cython" },
     { name = "pip" },
-    { name = "pyrex-rocksdb" },
     { name = "python-snappy" },
     { name = "scikit-learn", version = "1.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.10'" },
     { name = "scikit-learn", version = "1.7.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.10'" },
@@ -269,11 +255,9 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "apache-flink", specifier = ">=2.1.0" },
-    { name = "apache-flink-statefun", specifier = ">=3.3.0" },
     { name = "crc32c", specifier = ">=2.7.1" },
     { name = "cython", specifier = ">=3.1.4" },
     { name = "pip", specifier = ">=25.2" },
-    { name = "pyrex-rocksdb", specifier = ">=0.1.4" },
     { name = "python-snappy", specifier = ">=0.7.3" },
     { name = "scikit-learn", specifier = ">=1.6.1" },
     { name = "watchdog", specifier = ">=6.0.0" },
@@ -1267,25 +1251,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/bb/22/f1129e69d94ffff626bdb5c835506b3a5b4f3d070f17ea295e12c2c6f60f/pyparsing-3.2.3.tar.gz", hash = "sha256:b9c13f1ab8b3b542f72e28f634bad4de758ab3ce4546e4301970ad6fa77c38be", size = 1088608, upload-time = "2025-03-25T05:01:28.114Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/05/e7/df2285f3d08fee213f2d041540fa4fc9ca6c2d44cf36d3a035bf2a8d2bcc/pyparsing-3.2.3-py3-none-any.whl", hash = "sha256:a749938e02d6fd0b59b356ca504a24982314bb090c383e3cf201c95ef7e2bfcf", size = 111120, upload-time = "2025-03-25T05:01:24.908Z" },
-]
-
-[[package]]
-name = "pyrex-rocksdb"
-version = "0.1.4"
-source = { registry = "https://pypi.org/simple" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/ba/ff/e8163b8307f3821f7ec6db985bba5c0a495782a9c5479b7828d1d5575d9d/pyrex_rocksdb-0.1.4-cp310-cp310-macosx_14_0_arm64.whl", hash = "sha256:330a865c5808501a95ae52fa6589c24beccbe4430a90518e5437dbb4ec318550", size = 3910502, upload-time = "2025-08-03T21:38:11.701Z" },
-    { url = "https://files.pythonhosted.org/packages/56/3e/807840b13e517bfe8ce807cee927150785d2963a05d127573d96edf5b89f/pyrex_rocksdb-0.1.4-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:5a83c01495f8dfe93d99192bd900e99fe2580f8aa6c191f9d2449e1539fe5562", size = 4841080, upload-time = "2025-08-04T06:39:53.769Z" },
-    { url = "https://files.pythonhosted.org/packages/04/64/7f5ba0286bb8e3ec34f0ea0569e30bb0f2e6255b9353986d9254982c995f/pyrex_rocksdb-0.1.4-cp310-cp310-musllinux_1_2_x86_64.whl", hash = "sha256:c370c847d2115da8d90b05ccc23d48570c4c702a3a7cd5a8d3b11f165f943825", size = 6080921, upload-time = "2025-08-04T06:39:55.574Z" },
-    { url = "https://files.pythonhosted.org/packages/76/6d/eff6c307b02fbd321fcac2946f2a7654cf94caf21b1c7f8aca3b01d7e1ab/pyrex_rocksdb-0.1.4-cp311-cp311-macosx_14_0_arm64.whl", hash = "sha256:b16fed2dad8990d279ccdd9a7e26beb8798eb16b4c71d9b5d947914c777578f3", size = 3911732, upload-time = "2025-08-03T21:38:13.724Z" },
-    { url = "https://files.pythonhosted.org/packages/96/6a/a4d6326a47902800da70ae3b4adaf4b075772d9663a1a5b1950e605484a9/pyrex_rocksdb-0.1.4-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:8e6e58baf865b64bdf34016411b38c06a7560dde0568c2dd9d65b48e6e704208", size = 4844686, upload-time = "2025-08-04T06:39:57.37Z" },
-    { url = "https://files.pythonhosted.org/packages/81/c8/8ab8f937dcd34d1999bc86f4587c6fec858e4cc10cd8f7e7cfd9ebf074f3/pyrex_rocksdb-0.1.4-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:b7bf21de84fcdd981486f01b44c91ff458f015500c931e832938e83adfce2dcb", size = 6082181, upload-time = "2025-08-04T06:39:59.245Z" },
-    { url = "https://files.pythonhosted.org/packages/b2/f6/64f5680ca1810289fbb4941921f89b92396d062c39ef88dc7f72f4fa37a5/pyrex_rocksdb-0.1.4-cp312-cp312-macosx_14_0_arm64.whl", hash = "sha256:415695e697ee253b3e72af6e4062d81d6782bcf81c1b13fcf4401e8266ea5d78", size = 3915423, upload-time = "2025-08-03T21:38:15.5Z" },
-    { url = "https://files.pythonhosted.org/packages/b3/5f/e0aeb9eac4a67897a7f47fb75a5c0f45485f885555d5a6a8b03543ec5b5b/pyrex_rocksdb-0.1.4-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:bb8ef9a22b0ba2b6bfbb9ca18bfb8cbd8dc7099328ec78a8b30adb99f1d21a58", size = 4845731, upload-time = "2025-08-04T06:40:00.652Z" },
-    { url = "https://files.pythonhosted.org/packages/b8/40/8665b35da38b266b59910d6734d305a53f42d48169f1bf24b5ca8897248b/pyrex_rocksdb-0.1.4-cp312-cp312-musllinux_1_2_x86_64.whl", hash = "sha256:626787680e88cec287d1bd8e51bb381d4f8aa3ba2609914371f2b87ee46f94cd", size = 6082514, upload-time = "2025-08-04T06:40:02.455Z" },
-    { url = "https://files.pythonhosted.org/packages/55/f5/f9a10c3375c10dd7036b324b6bca93a30c2c4074192e22f258aa3e54e4ca/pyrex_rocksdb-0.1.4-cp39-cp39-macosx_14_0_arm64.whl", hash = "sha256:deec9d0c3b0308666ead02ac70dd0568519e7a35bc32337046a8d017cce51ed9", size = 3910631, upload-time = "2025-08-03T21:38:16.809Z" },
-    { url = "https://files.pythonhosted.org/packages/87/85/be96e727e20d3778c588494a2dbe9e811a2863558a7cec920b69f989e2da/pyrex_rocksdb-0.1.4-cp39-cp39-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:f4c7af8fd64b6b12ceaa50c61617c2338cea5a9161432b648a7672063a05993c", size = 4841940, upload-time = "2025-08-04T06:40:07.445Z" },
-    { url = "https://files.pythonhosted.org/packages/90/d8/b34a9dcada38fef38cd6e95dca2c8cb3409a14c08ac478819f83156920fc/pyrex_rocksdb-0.1.4-cp39-cp39-musllinux_1_2_x86_64.whl", hash = "sha256:948ff7029e85e2a51e51aba52f4a1590d76a0232131f3011573bde071258be90", size = 6080940, upload-time = "2025-08-04T06:40:08.83Z" },
 ]
 
 [[package]]
