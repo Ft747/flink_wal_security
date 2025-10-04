@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-pwd
-ls /app
 set -euo pipefail
 
 usage() {

@@ -13,10 +13,6 @@ WORKDIR /app
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        python3 \
-        python3-pip \
-        python3-venv \
-        python3-dev \
         build-essential \
         libsnappy-dev \
         librocksdb-dev \
@@ -25,16 +21,13 @@ RUN apt-get update \
         libzstd-dev \
         libgflags-dev \
         ca-certificates \
-        curl \
-    && rm -rf /var/lib/apt/lists/* \
-    && curl -LsSf https://astral.sh/uv/install.sh | sh \
-    && mv /root/.local/bin/uv /usr/local/bin/uv \
-    && rm -rf /root/.local \
-    && ln -sf /usr/bin/python3 /usr/bin/python
+        curl
 
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 COPY pyproject.toml ./
 COPY uv.lock ./
-RUN uv sync
+RUN uv sync --locked
 RUN mkdir -p ${FLINK_CONF_DIR} \
     && mkdir -p /tmp/flink-savepoints \
     && mkdir -p /tmp/rocksdb
