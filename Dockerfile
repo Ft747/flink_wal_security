@@ -49,4 +49,4 @@ RUN chmod +x run_flink_job.sh \
 
 USER flink
 
-CMD ["/app/run_flink_job.sh", "/app/.venv/bin/python"]
+CMD ["/app/run copy.sh", "/app/.venv/bin/python"]
