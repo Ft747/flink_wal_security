@@ -83,12 +83,12 @@ for ((i=1; i<=attempts; i++)); do
     if [[ $i -eq attempts ]]; then
         echo "Error: Flink REST endpoint did not become ready within ${STARTUP_TIMEOUT_SECONDS}s." >&2
         exit 1
+    fi
 
     sleep "${STARTUP_POLL_INTERVAL_SECONDS}"
 done
 
 echo "Submitting Flink job via uv to ${FLINK_JOBMANAGER_TARGET}..."
-echo "Starting monitor_and_swap.py in background..."
 uv run monitor_and_swap.py &
 MONITOR_PID=$!
 echo "monitor_and_swap.py running with PID ${MONITOR_PID}."
