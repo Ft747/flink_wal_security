@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+pwd
+ls /app
 set -euo pipefail
 
 usage() {
@@ -22,6 +24,9 @@ fi
 
 PY_EXECUTABLE=$1
 shift || true
+printf '%s\n' "${submission_output}"
+
+JOB_ID=$(printf '%s\n' "${submission_output}" | sed -n 's/.*Job has been submitted with JobID \([0-9a-fA-F-]\{1,\}\).*/\1/p' | head -n1)
 
 if [[ ! -x "${PY_EXECUTABLE}" ]]; then
     echo "Error: '${PY_EXECUTABLE}' is not an executable Python interpreter." >&2
@@ -42,8 +47,3 @@ FLINK_JOBMANAGER_TARGET=${FLINK_JOBMANAGER_TARGET:-127.0.0.1:8081}
 # echo "monitor_and_swap.py running with PID ${MONITOR_PID}."
 
 uv run -- "${FLINK_BIN_DIR}/flink" run -m "${FLINK_JOBMANAGER_TARGET}" -d -py job.py -pyexec "${PY_EXECUTABLE}" "$@"
-
-
-printf '%s\n' "${submission_output}"
-
-JOB_ID=$(printf '%s\n' "${submission_output}" | sed -n 's/.*Job has been submitted with JobID \([0-9a-fA-F-]\{1,\}\).*/\1/p' | head -n1)
