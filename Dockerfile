@@ -35,7 +35,7 @@ RUN apt-get update \
 COPY pyproject.toml ./
 COPY uv.lock ./
 RUN uv pip install --python python3 --system .
-
+RUN uv sync
 RUN mkdir -p ${FLINK_CONF_DIR} \
     && mkdir -p /tmp/flink-savepoints \
     && mkdir -p /tmp/rocksdb
