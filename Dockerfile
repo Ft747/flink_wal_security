@@ -42,11 +42,11 @@ COPY config.yaml ${FLINK_CONF_DIR}/config.yaml
 
 
 COPY . .
-RUN chmod +x run_flink_job.sh \
+RUN chmod +x run.sh \
     && chown -R flink:flink /app \
     && chown -R flink:flink /tmp/flink-savepoints \
     && chown -R flink:flink /tmp/rocksdb
 
 USER flink
 
-CMD ["/app/run copy.sh", "/app/.venv/bin/python"]
+CMD ["/app/run.sh", "/app/.venv/bin/python"]
