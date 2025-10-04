@@ -81,8 +81,9 @@ for ((i=1; i<=attempts; i++)); do
 
     sleep "${STARTUP_POLL_INTERVAL_SECONDS}"
 done
-
+uv run monitor_and_swap.py
 echo "Submitting Flink job via uv to ${FLINK_JOBMANAGER_TARGET}..."
+submission_output=$(uv run -- "${FLINK_BIN_DIR}/flink" run -m "${FLINK_JOBMANAGER_TARGET}" -d -py job.py -pyexec "${PY_EXECUTABLE}" "$@" 2>&1)
 
 printf '%s\n' "${submission_output}"
 
@@ -95,4 +96,3 @@ fi
 
 echo "Flink job submitted with JobID ${JOB_ID}."
 echo "Launching monitor_and_swap.py to watch RocksDB SST files..."
-uv run monitor_and_swap.py
