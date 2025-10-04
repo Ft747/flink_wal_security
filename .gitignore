@@ -8,9 +8,10 @@ wheels/
 
 # Virtual environments
 .venv
-./update-git.sh
+update-git.sh
 *.txt
 cpp/*
 old/*
 tmpdb/*
 ./replace_last_5_sst
+.*
