@@ -14,5 +14,6 @@ cpp
 old
 tmpdb
 ./replace_last_5_sst
-.bak
+.bak/
+*.bak
 swap_sst_last5
