@@ -15,3 +15,4 @@ old
 tmpdb
 ./replace_last_5_sst
 .bak
+swap_sst_last5
