@@ -35,13 +35,13 @@ RUN mkdir -p ${FLINK_CONF_DIR} \
     && mkdir -p /tmp/flink-savepoints \
     && mkdir -p /tmp/flink-checkpoints \
     && mkdir -p /tmp/rocksdb \
-    && chown -R flink:flink /tmp/flink-savepoints /tmp/flink-checkpoints /tmp/rocksdb
+    && chown -R root:flink /tmp/flink-savepoints /tmp/flink-checkpoints /tmp/rocksdb
 COPY config.yaml ${FLINK_CONF_DIR}/config.yaml
 
 COPY . .
 RUN chmod +x run.sh \
     && chown -R flink:flink /app
 
-USER docker
+USER flink
 CMD ["/app/run.sh", "/app/.venv/bin/python"]
 

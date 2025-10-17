@@ -42,6 +42,6 @@ COPY . .
 RUN chmod +x run.sh \
     && chown -R flink:flink /app
 
-USER flink
+USER root
 CMD ["/app/run.sh", "/app/.venv/bin/python"]
 
