@@ -43,6 +43,8 @@ execution.checkpointing.savepoint-dir: file:///tmp/flink-checkpoints
 execution.checkpointing.dir: file:///tmp/flink-checkpoints
 state.backend.rocksdb.localdir: /tmp/rocksdb
 execution.checkpointing.local-backup.enabled: true
+execution.state-recovery.ignore-unclaimed-state: true
+
 
 jobmanager:
   # Bind to all interfaces inside the container so TaskManagers can reach the JobManager.

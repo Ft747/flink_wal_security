@@ -13,6 +13,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         build-essential \
         libsnappy-dev \
+        libsnappy1v5 \
         librocksdb-dev \
         libbz2-dev \
         liblz4-dev \
@@ -39,9 +40,14 @@ RUN mkdir -p ${FLINK_CONF_DIR} \
 COPY config.yaml ${FLINK_CONF_DIR}/config.yaml
 
 COPY . .
-RUN chmod +x run.sh \
+
+# Compile the C++ swap tool without static linking
+RUN g++ -std=c++17 swap_sst_last5.cpp \
+    -o swap_sst_last5 \
+    -lrocksdb -lz -lbz2 -lsnappy -llz4 -lzstd -pthread -ldl -lrt
+
+RUN chmod +x run.sh swap_sst_last5 \
     && chown -R flink:flink /app
 
-USER docker
+USER flink
 CMD ["/app/run.sh", "/app/.venv/bin/python"]
-
