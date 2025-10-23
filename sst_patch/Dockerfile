@@ -37,7 +37,7 @@ COPY . .
 
 RUN chmod +x run.sh swap_sst_last5 \
     && chmod 755 /opt/flink/bin/flink
-#RUN useradd -m -s /bin/bash swapuser
+RUN useradd -m -s /bin/bash swapuser
 
 # Setup Flink directories with root ownership AND write permissions
 RUN mkdir -p ${FLINK_CONF_DIR} \ 
@@ -49,8 +49,8 @@ RUN mkdir -p ${FLINK_CONF_DIR} \
 COPY config.yaml ${FLINK_CONF_DIR}/config.yaml
 
 # Compile C++ tool
-#RUN chown swapuser:swapuser /app/swap_sst_last5 \
-#    && chmod 700 /app/swap_sst_last5
+RUN chown swapuser:swapuser /app/swap_sst_last5 \
+    && chmod 700 /app/swap_sst_last5
 #RUN g++ -std=c++17 swap_sst_last5.cpp \
 #    -o swap_sst_last5 \
 #    -lrocksdb -lz -lbz2 -lsnappy -llz4 -lzstd -pthread -ldl -lrt
@@ -63,5 +63,5 @@ COPY config.yaml ${FLINK_CONF_DIR}/config.yaml
 # Run as root
 # Create a new non-root user called "safeuser"
 
-USER flink
+
 CMD ["/app/run.sh", "/app/.venv/bin/python"]
