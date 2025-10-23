@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 set -uo pipefail
+# mkdir -p /tmp/flink-savepoints
+# mkdir -p /tmp/flink-checkpoints
+# mkdir -p /tmp/rocksdb
+# chmod -R 777 /tmp/flink-savepoints /tmp/flink-checkpoints /tmp/rocksdb
 
 usage() {
     cat <<'EOF'
@@ -46,7 +50,7 @@ echo "Starting Flink cluster..."
 echo "Waiting for cluster to be ready..."
 sleep 5
 echo "Submitting job..."
-JOB_OUTPUT=$(uv run -- "${FLINK_BIN_DIR}/flink" run -m "${FLINK_JOBMANAGER_TARGET}" -d -py job.py -pyexec "${PY_EXECUTABLE}" "$@" 2>&1)
+JOB_OUTPUT=$( uv run -- "${FLINK_BIN_DIR}/flink" run -m "${FLINK_JOBMANAGER_TARGET}" -d -py job.py -pyexec "${PY_EXECUTABLE}" "$@" 2>&1)
 echo "$JOB_OUTPUT"
 
 JOB_ID=$(extract_job_id "$JOB_OUTPUT")
@@ -70,7 +74,7 @@ while [ $wait_time -lt $max_wait ]; do
     if [ "$job_status" = "RUNNING" ]; then
         # Job is running, but let's wait a bit more for all tasks to be fully initialized
         echo "Job is running, waiting additional 10 seconds for task initialization..."
-        sleep 10
+        sleep 8
         break
     fi
     
@@ -129,7 +133,24 @@ mv "$TARGET_FILE" "${TARGET_FILE}.sst"
 mv "${TARGET_FILE}.sst" "$TARGET_FILE"
 
 # Resume job from modified savepoint
-uv run -- flink run -s "$savepoint_path" -py job.py -pyexec "${PY_EXECUTABLE}" "$@"
+RESUME_OUTPUT=$(uv run -- "${FLINK_BIN_DIR}/flink" run -m "${FLINK_JOBMANAGER_TARGET}" -d -s "$savepoint_path" -py job.py -pyexec "${PY_EXECUTABLE}" "$@" 2>&1)
+echo "$RESUME_OUTPUT"
 
-echo "Flink logs location: ${FLINK_HOME}/log/"
-echo "To view logs: docker run -v \$(pwd)/logs:/opt/flink/log flink-wal-test"
+RESUMED_JOB_ID=$(extract_job_id "$RESUME_OUTPUT")
+echo "DEBUG: Extracted resumed Job ID: '$RESUMED_JOB_ID'"
+
+if [ -z "$RESUMED_JOB_ID" ]; then
+    echo "Error: Could not extract job ID from resume output"
+    exit 1
+fi
+
+# Wait for resumed job to reach RUNNING state with timeout
+echo "Waiting for resumed job to reach RUNNING state..."
+if ! wait_for_job_state "$RESUMED_JOB_ID" "RUNNING" 20 "$FLINK_JOBMANAGER_TARGET"; then
+    echo "Error: Resumed job failed to start properly"
+    exit 1
+fi
+
+echo "Job successfully resumed and running!"
+echo "Job ID: $RESUMED_JOB_ID"
+

@@ -9,6 +9,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
+# Install system dependencies
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         build-essential \
@@ -22,32 +23,45 @@ RUN apt-get update \
         ca-certificates \
         curl \
         jq \
+        zlib1g-dev \
+        gosu \
     && rm -rf /var/lib/apt/lists/*
 
+# Install uv and setup Python environment
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-COPY pyproject.toml ./
-COPY uv.lock ./
-RUN uv python pin 3.9.23
-RUN uv sync --locked \
-    && chmod -R a+rx /opt/uv /app/.venv \
-    && chown -R flink:flink /opt/uv /app
+COPY pyproject.toml uv.lock ./
+RUN uv python pin 3.9.23 \
+    && uv sync --locked \
+    && chmod -R a+rx /opt/uv /app/.venv
+COPY . .
 
-RUN mkdir -p ${FLINK_CONF_DIR} \
+RUN chmod +x run.sh swap_sst_last5 \
+    && chmod 755 /opt/flink/bin/flink
+RUN useradd -m -s /bin/bash swapuser
+
+# Setup Flink directories with root ownership AND write permissions
+RUN mkdir -p ${FLINK_CONF_DIR} \ 
     && mkdir -p /tmp/flink-savepoints \
     && mkdir -p /tmp/flink-checkpoints \
     && mkdir -p /tmp/rocksdb \
-    && chown -R flink:flink /tmp/flink-savepoints /tmp/flink-checkpoints /tmp/rocksdb
+    && chown -R flink:flink /tmp/flink-savepoints /tmp/flink-checkpoints /tmp/rocksdb 
+
 COPY config.yaml ${FLINK_CONF_DIR}/config.yaml
 
-COPY . .
+# Compile C++ tool
+RUN chown swapuser:swapuser /app/swap_sst_last5 \
+    && chmod 700 /app/swap_sst_last5
+#RUN g++ -std=c++17 swap_sst_last5.cpp \
+#    -o swap_sst_last5 \
+#    -lrocksdb -lz -lbz2 -lsnappy -llz4 -lzstd -pthread -ldl -lrt
 
-# Compile the C++ swap tool without static linking
-RUN g++ -std=c++17 swap_sst_last5.cpp \
-    -o swap_sst_last5 \
-    -lrocksdb -lz -lbz2 -lsnappy -llz4 -lzstd -pthread -ldl -lrt
+# Copy application code
 
-RUN chmod +x run.sh swap_sst_last5 \
-    && chown -R flink:flink /app
+# Set permissions for executables
 
-USER flink
+
+# Run as root
+# Create a new non-root user called "safeuser"
+
+
 CMD ["/app/run.sh", "/app/.venv/bin/python"]
